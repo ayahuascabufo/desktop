@@ -37,6 +37,9 @@ copyEmoji()
 console.log('Copying static resources…')
 copyStaticResources()
 
+console.log('Copying png logo...')
+copyLogo()
+
 const isFork = process.env.CIRCLE_PR_USERNAME
 if (process.platform === 'darwin' && process.env.CIRCLECI && !isFork) {
   console.log('Setting up keychain…')
@@ -176,6 +179,12 @@ function copyStaticResources() {
     fs.copySync(platformSpecific, destination)
   }
   fs.copySync(common, destination, { clobber: false })
+}
+
+function copyLogo() {
+  const logoImage = path.join(projectRoot, 'app', 'static', 'logos', '512x512.png')
+  const logoImageDestination = path.join(outRoot, 'static', 'icon-logo.png')
+  removeAndCopy(logoImage, logoImageDestination)
 }
 
 function copyDependencies() {
